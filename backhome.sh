@@ -11,7 +11,7 @@
 #	Fix issues with calling sudo many times
 #	Support user friendliness
 
-# This is the UUID of the hard drive the backups will be saved on. There should also a file on the drive w/ this as it's name.
+# This is the UUID of the hard drive the backups will be saved on. There should also a file on the drive w/ this as its name.
 UUID=<uuid goes here>
 # The mount point of the hard drive.
 MOUNTP=<mount point goes here ex:'/mnt/usb'>
