@@ -19,7 +19,7 @@ Script to backup the current user's home directory as a compressed and encrypted
 	2. Set the variables '$UUID', '$MOUNTP', and '$GPGID'
 		- $UUID should be set to the name of a file on the backup drive.
 			- `UUID=thisisabadexample`
-		- $MOUNTP should be set to the backup drives desired mount point.
+		- $MOUNTP should be set to the backup drive's desired mount point.
 			- `MOUNTP=/path/to/mount/point`
 		- $GPGID should be set to the id of a public gpg key.
 			- `GPGID=someone@email.com`
