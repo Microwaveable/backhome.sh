@@ -8,7 +8,6 @@
 #
 # TODO:
 #	Support command line arguments
-#	Fix issues with calling sudo many times
 #	Support user friendliness
 
 # This is the UUID of the hard drive the backups will be saved on. There should also a file on the drive w/ this as its name.
@@ -19,7 +18,7 @@ MOUNTP=<mount point goes here ex:'/mnt/usb'>
 GPGID=<GPG id goes here.>
 # The date. used in the name of the archives being created.
 DATE=$(date +%F) 
-# Current user's $HOME. Use w/ sudo as to not use root's $HOME.
+# Current user's home directory.
 SUDO_HOME=$(grep $SUDO_USER /etc/passwd | cut -d ":" -f6)
 
 # Some 'boolean' variables. Toggled in function arguments
@@ -42,9 +41,6 @@ arguments()
 		fi
 	done
 	
-	echo "Arguments are $@"
-	echo "BOOL_ENCRYPT is $BOOL_ENCRYPT"
-
 	inital
 }
 
@@ -75,10 +71,6 @@ archive()
 # Encrypt the archive with gpg and shred the unencrypted file.
 encrypt()
 {
-	# This prompt only exist because sudo may time out if the user is away. This all depends on how sudo is configured.
-	#echo "Would you like to encrypt the archive?(y/n)"
-	#read PROMPT1
-
 	if [ $BOOL_ENCRYPT -eq 1 ]
 	then
 		echo "Encrypting archive..."
@@ -89,13 +81,6 @@ encrypt()
 		shred $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz
 		rm -f $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz
 		echo "Files erased"
-	#elif [ $PROMPT1 = 'n' ]
-	#then
-	#	echo "The archive will not be encrypted"
-	#else
-	#	echo "Please type 'y' or 'n'"
-	#	sleep 0.3s
-	#	encrypt
 	fi
 
 	unmount
@@ -104,21 +89,11 @@ encrypt()
 #Unmounting the drive. Still using it's UUID.
 unmount()
 {
-	#echo "Would you like to unmount the backup drive?(y/n)"
-	#read PROMPT2
-
 	if [ $BOOL_UMOUNT -eq 1 ]
 	then
 		echo "Unmounting drive..."
 		umount UUID=$UUID
 		echo "Drive unmounted"
-	#elif [ $PROMPT2 = 'n' ]
-	#then
-	#	echo "The drive will remain mounted at $MOUNTP"
-	#else
-	#	echo "Please type 'y' or 'n'"
-	#	sleep 0.3s
-	#	unmount
 	fi
 }
 
