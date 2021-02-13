@@ -22,6 +22,32 @@ DATE=$(date +%F)
 # Current user's $HOME. Use w/ sudo as to not use root's $HOME.
 SUDO_HOME=$(grep $SUDO_USER /etc/passwd | cut -d ":" -f6)
 
+# Some 'boolean' variables. Toggled in function arguments
+BOOL_ENCRYPT=0
+BOOL_UMOUNT=0
+
+# Reading command line arguments.
+arguments()
+{
+	for arg in "$@"
+	do
+		if [ $arg == '-e' ]
+		then
+			BOOL_ENCRYPT=1
+		fi
+
+		if [ $arg == '-u' ]
+		then
+			BOOL_UMOUNT=1
+		fi
+	done
+	
+	echo "Arguments are $@"
+	echo "BOOL_ENCRYPT is $BOOL_ENCRYPT"
+
+	inital
+}
+
 # Mounting the hard drive.
 inital()
 {													
@@ -50,10 +76,10 @@ archive()
 encrypt()
 {
 	# This prompt only exist because sudo may time out if the user is away. This all depends on how sudo is configured.
-	echo "Would you like to encrypt the archive?(y/n)"
-	read PROMPT1
+	#echo "Would you like to encrypt the archive?(y/n)"
+	#read PROMPT1
 
-	if [ $PROMPT1 = 'y' ]
+	if [ $BOOL_ENCRYPT -eq 1 ]
 	then
 		echo "Encrypting archive..."
 		cd $MOUNTP
@@ -63,13 +89,13 @@ encrypt()
 		shred $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz
 		rm -f $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz
 		echo "Files erased"
-	elif [ $PROMPT1 = 'n' ]
-	then
-		echo "The archive will not be encrypted"
-	else
-		echo "Please type 'y' or 'n'"
-		sleep 0.3s
-		encrypt
+	#elif [ $PROMPT1 = 'n' ]
+	#then
+	#	echo "The archive will not be encrypted"
+	#else
+	#	echo "Please type 'y' or 'n'"
+	#	sleep 0.3s
+	#	encrypt
 	fi
 
 	unmount
@@ -78,22 +104,22 @@ encrypt()
 #Unmounting the drive. Still using it's UUID.
 unmount()
 {
-	echo "Would you like to unmount the backup drive?(y/n)"
-	read PROMPT2
+	#echo "Would you like to unmount the backup drive?(y/n)"
+	#read PROMPT2
 
-	if [ $PROMPT2 = 'y' ]
+	if [ $BOOL_UMOUNT -eq 1 ]
 	then
 		echo "Unmounting drive..."
 		umount UUID=$UUID
 		echo "Drive unmounted"
-	elif [ $PROMPT2 = 'n' ]
-	then
-		echo "The drive will remain mounted at $MOUNTP"
-	else
-		echo "Please type 'y' or 'n'"
-		sleep 0.3s
-		unmount
+	#elif [ $PROMPT2 = 'n' ]
+	#then
+	#	echo "The drive will remain mounted at $MOUNTP"
+	#else
+	#	echo "Please type 'y' or 'n'"
+	#	sleep 0.3s
+	#	unmount
 	fi
 }
 
-inital
+arguments $@
