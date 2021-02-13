@@ -28,7 +28,7 @@ Script to backup the current user's home directory as a compressed and encrypted
 - Run `backhome.sh`. This may take some time. At certain points the program will prompt the user for information.
 
 ## Contributing
-- You may make commits, but I might not see them.
+- You may make pull requests, but I might not see them.
 - Copy this script and use it however you'd like.
 
 ## About
