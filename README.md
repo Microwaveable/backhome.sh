@@ -1,5 +1,5 @@
 # backhome.sh
-Script to backup the current user's home directory as a compressed and encrypted archive on another drive.
+Script to back up the current user's home directory as a compressed and encrypted archive on another drive.
 
 ## Dependencies
 - In order to run backhome.sh you need...
