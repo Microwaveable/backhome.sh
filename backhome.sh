@@ -41,11 +41,11 @@ arguments()
 		fi
 	done
 	
-	inital
+	initial
 }
 
 # Mounting the hard drive.
-inital()
+initial()
 {													
 	echo "Mounting drive..."
 	mount UUID=$UUID $MOUNTP
