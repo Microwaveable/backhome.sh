@@ -12,23 +12,21 @@
 #	Support user friendliness
 
 # This is the UUID of the hard drive the backups will be saved on. There should also a file on the drive w/ this as its name.
-UUID=<uuid goes here>
+UUID=<UUID goes here>
 # The mount point of the hard drive.
 MOUNTP=<mount point goes here ex:'/mnt/usb'>
 # The id of the GPG user.
 GPGID=<GPG id goes here.>
 # The date. used in the name of the archives being created.
 DATE=$(date +%F) 
-# Current user. Don't use '$USER' because sudo changes the current user to root.
-MAN=$USER 
 # Current user's $HOME. Use w/ sudo as to not use root's $HOME.
-MHOME=$HOME
+SUDO_HOME=$(grep $SUDO_USER /etc/passwd | cut -d ":" -f6)
 
 # Mounting the hard drive.
 inital()
 {													
 	echo "Mounting drive..."
-	sudo mount UUID=$UUID $MOUNTP
+	mount UUID=$UUID $MOUNTP
 	# If ID file that is on drive is found then assume the drive is mounted and go on to archive.
 	if [ -a $MOUNTP/$UUID ]
 	then
@@ -42,9 +40,9 @@ inital()
 # Make the compressed archive with tar.
 archive()
 {
-	echo "Archiving $MHOME..."
-	sudo tar -zcvf $MOUNTP/$MAN\_$DATE\_backup.tar.gz $MHOME
-	echo "Archive created at $MOUNTP/$MAN\_$DATE\_backup.tar.gz"
+	echo "Archiving $SUDO_HOME..."
+	tar -zcvf $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz $SUDO_HOME
+	echo "Archive created at $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz"
 	encrypt
 }
 
@@ -59,11 +57,11 @@ encrypt()
 	then
 		echo "Encrypting archive..."
 		cd $MOUNTP
-		sudo gpg -r $GPGID -e $MOUNTP/$MAN\_$DATE\_backup.tar.gz
+		gpg -r $GPGID -e $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz
 		echo "Archive encrypted"
 		echo "Erasing unencrypted files..."
-		sudo shred $MOUNTP/$MAN\_$DATE\_backup.tar.gz
-		sudo rm -f $MOUNTP/$MAN\_$DATE\_backup.tar.gz
+		shred $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz
+		rm -f $MOUNTP/$SUDO_USER\_$DATE\_backup.tar.gz
 		echo "Files erased"
 	elif [ $PROMPT1 = 'n' ]
 	then
@@ -86,7 +84,7 @@ unmount()
 	if [ $PROMPT2 = 'y' ]
 	then
 		echo "Unmounting drive..."
-		sudo umount UUID=$UUID
+		umount UUID=$UUID
 		echo "Drive unmounted"
 	elif [ $PROMPT2 = 'n' ]
 	then
