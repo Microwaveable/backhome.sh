@@ -9,13 +9,13 @@ Script to back up the current user's home directory as a compressed and encrypte
 
 ## Installation/Set-up
 - Installation
-	1. `git clone https://microwaveable/backhome.sh`
-	2. `cd backhome.sh`
+	1. `$ git clone https://github.com/microwaveable/backhome.sh`
+	2. `$ cd backhome.sh`
 	3. Script is found at ./backhome.sh
 		- You can move this file to somewhere in your $PATH.
 - Set-up
 	1. Open backhome.sh with your preferred text editor.
-		- `vi backhome.sh`
+		- `$ vi backhome.sh`
 	2. Set the variables '$UUID', '$MOUNTP', and '$GPGID'
 		- $UUID should be set to the name of a file on the backup drive.
 			- `UUID=thisisabadexample`
@@ -25,7 +25,7 @@ Script to back up the current user's home directory as a compressed and encrypte
 			- `GPGID=someone@email.com`
 
 ## Usage
-- Run `backhome.sh`. This may take some time. At certain points the program will prompt the user for information.
+- Run `$ sudo backhome.sh`. This may take some time. At certain points the program will prompt the user for information.
 
 ## Contributing
 - You may make pull requests, but I might not see them.
