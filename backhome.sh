@@ -11,11 +11,11 @@
 #	Support user friendliness
 
 # This is the UUID of the hard drive the backups will be saved on. There should also a file on the drive w/ this as its name.
-UUID=<UUID goes here>
+UUID=2
 # The mount point of the hard drive.
-MOUNTP=<mount point goes here ex:'/mnt/usb'>
+MOUNTP=4
 # The id of the GPG user.
-GPGID=<GPG id goes here.>
+GPGID=6
 # The date. used in the name of the archives being created.
 DATE=$(date +%F) 
 # Current user's home directory.
@@ -30,14 +30,27 @@ arguments()
 {
 	for arg in "$@"
 	do
-		if [ $arg == '-e' ]
+		if [ $arg == '-e' ] || [ $arg == '--encrypt' ]
 		then
 			BOOL_ENCRYPT=1
 		fi
 
-		if [ $arg == '-u' ]
+		if [ $arg == '-u' ] || [ $arg == '--unmount' ]
 		then
 			BOOL_UMOUNT=1
+		fi
+
+		if [ $arg == "-h" ] || [ $arg == "--help" ]
+		then
+			echo "Usage:	$( echo $0 | rev | cut -d "/" -f 1 | rev ) [arguments]"
+			echo
+			echo "Valid arguments:"
+			echo "	-e		Encrypt the archive with gpg"
+			echo "	-u		Unmount the backup media"
+			echo "	-h		print this help message"
+
+			# Find out how to end the process without printing "Terminated"
+			kill $$
 		fi
 	done
 	
