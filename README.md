@@ -17,7 +17,8 @@ Script to back up the current user's home directory as a compressed and encrypte
 	1. Open backhome.sh with your preferred text editor.
 		- `$ vi backhome.sh`
 	2. Set the variables '$UUID', '$MOUNTP', and '$GPGID'
-		- $UUID should be set to the name of a file on the backup drive.
+		- $UUID should be set to the UUID of the backup drive, also the name of a file on the backup drive.
+			- You can find the drive's UUID by running `$ lsblk -f`.
 			- `UUID=thisisabadexample`
 		- $MOUNTP should be set to the backup drive's desired mount point.
 			- `MOUNTP=/path/to/mount/point`
@@ -25,7 +26,8 @@ Script to back up the current user's home directory as a compressed and encrypte
 			- `GPGID=someone@email.com`
 
 ## Usage
-- Run `$ sudo backhome.sh`. This may take some time. At certain points the program will prompt the user for information.
+- Run `$ sudo backhome.sh --help` for some information about valid arguments.
+- Run `$ sudo backhome.sh --encrypt --unmount` to make an encrypted archive, then unmount the backup media. This may take some time. At certain points the program will prompt the user for information.
 
 ## Contributing
 - You may make pull requests, but I might not see them.
