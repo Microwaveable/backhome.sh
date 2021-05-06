@@ -11,11 +11,11 @@
 #	Support user friendliness
 
 # This is the UUID of the hard drive the backups will be saved on. There should also a file on the drive w/ this as its name.
-UUID=2
+UUID=<UUID goes here>
 # The mount point of the hard drive.
-MOUNTP=4
+MOUNTP=<mount point goes here ex:'/mnt/usb'>
 # The id of the GPG user.
-GPGID=6
+GPGID=<GPG id goes here.>
 # The date. used in the name of the archives being created.
 DATE=$(date +%F) 
 # Current user's home directory.
