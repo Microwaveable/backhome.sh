@@ -51,7 +51,7 @@ arguments()
 			echo "Usage:	$( echo $0 | rev | cut -d "/" -f 1 | rev ) [arguments]"
 			echo
 			echo "Valid arguments:"
-			echo "	-o [directory]		Path to were the archive will be created"
+			echo "	-o [directory]		Path to where the archive will be created"
 			echo "	-e			Encrypt the archive with gpg"
 			echo "	-h			print this help message"
 
