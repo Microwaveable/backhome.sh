@@ -22,7 +22,7 @@ BOOL_ENCRYPT=0
 # Reading command line arguments.
 arguments()
 {
-	if [[ $@ != *-o* ]] && [[ $@ != *-h* ]] && [[ $@ != *--help* ]]
+	if [[ $@ != *-o* ]] && [[ $@ != *--output* ]] && [[ $@ != *-h* ]] && [[ $@ != *--help* ]]
 	then
 		echo "Error: No output directory provided!"
 		kill $$
@@ -36,9 +36,18 @@ arguments()
 		fi
 
 		# Argument to specify where to create archive.
-		if [ $arg == '-o' ] #|| [ $arg == '--output' ]
+		if [ $arg == '-o' ]
 		then
 			OUTPUT=$( echo $@ | sed 's/^[^-o]*-o//' | awk '{print $1}' )
+			
+			if [[ $OUTPUT == */ ]]
+			then
+				OUTPUT=$( echo $OUTPUT | sed 's/.$//' )
+			fi
+		# Longhand for '-o'
+		elif [ $arg == '--output' ]
+		then
+			OUTPUT=$( echo $@ | sed 's/^[^--output]*--output//' | awk '{print $1}' )
 			
 			if [[ $OUTPUT == */ ]]
 			then
