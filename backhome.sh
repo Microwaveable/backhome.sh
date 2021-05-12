@@ -13,11 +13,24 @@
 GPGID=<gpg id goes here>
 # The date. used in the name of the archives being created.
 DATE=$(date +%F) 
-# Current user's home directory.
-SUDO_HOME=$(grep $SUDO_USER /etc/passwd | cut -d ":" -f6)
 
-# A 'boolean' variables. Toggled in function arguments()
+# A 'boolean' variable. Toggled in function arguments()
 BOOL_ENCRYPT=0
+
+# Determine if the program is run as SUDO. Set $SUDO_HOME variable accordingly.
+whoru()
+{
+	if [ $USER == 'root' ]
+	then
+		SUDO_HOME=$(grep $SUDO_USER /etc/passwd | cut -d ":" -f6)
+	else
+		SUDO_HOME=$HOME
+		SUDO_USER=$USER
+	fi
+
+	arguments $@
+}
+
 
 # Reading command line arguments.
 arguments()
@@ -97,4 +110,5 @@ encrypt()
 	fi
 }
 
-arguments $@
+whoru $@
+#arguments $@
