@@ -43,6 +43,7 @@ arguments()
 
 	for arg in "$@"
 	do
+		# Argument to enable encryption.
 		if [ $arg == '-e' ] || [ $arg == '--encrypt' ]
 		then
 			BOOL_ENCRYPT=1
@@ -57,7 +58,7 @@ arguments()
 			then
 				OUTPUT=$( echo $OUTPUT | sed 's/.$//' )
 			fi
-		# Longhand for '-o'
+		# Longhand for '-o'.
 		elif [ $arg == '--output' ]
 		then
 			OUTPUT=$( echo $@ | sed 's/^[^--output]*--output//' | awk '{print $1}' )
@@ -67,7 +68,8 @@ arguments()
 				OUTPUT=$( echo $OUTPUT | sed 's/.$//' )
 			fi
 		fi
-
+		
+		# Argument to display help message.
 		if [ $arg == "-h" ] || [ $arg == "--help" ]
 		then
 			echo "Usage:	$( echo $0 | rev | cut -d "/" -f 1 | rev ) [arguments]"
