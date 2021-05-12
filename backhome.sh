@@ -10,7 +10,7 @@
 #	Support user friendliness
 
 # The id of the GPG user.
-GPGID=<gpg is goes here>
+GPGID=<gpg id goes here>
 # The date. used in the name of the archives being created.
 DATE=$(date +%F) 
 # Current user's home directory.
@@ -22,7 +22,7 @@ BOOL_ENCRYPT=0
 # Reading command line arguments.
 arguments()
 {
-	if [[ $@ != *-o* ]]
+	if [[ $@ != *-o* ]] && [[ $@ != *-h* ]] && [[ $@ != *--help* ]]
 	then
 		echo "Error: No output directory provided!"
 		kill $$
